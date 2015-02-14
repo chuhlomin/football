@@ -23,9 +23,6 @@ class BoardTests: XCTestCase {
         ]
         
         XCTAssertEqual(expectedBoard, board.board)
-        
-        let expectedLines: Array<(Dot, Dot, Int)> = []
-        
         XCTAssertEqual(16, board.lines.count)
     }
     
@@ -47,5 +44,29 @@ class BoardTests: XCTestCase {
         ]
         
         XCTAssertEqual(expectedBoard, board.board)
+    }
+    
+    func testShouldGetDot() {
+        var board = Board(width: 6, height: 6, goalMargin: 1)
+        
+        XCTAssertEqual(board.UNREACHABLE, board.getDot((0, 0))!)
+        XCTAssertEqual(board.WALL, board.getDot((1, 1))!)
+        XCTAssertEqual(board.EMPTY, board.getDot((2, 2))!)
+    }
+    
+    func testShouldReturnNilIfDotOutOfIndex() {
+        var board = Board(width: 6, height: 6, goalMargin: 1)
+        
+        XCTAssertNil(board.getDot((7, 7)))
+        XCTAssertNil(board.getDot((-1, 3)))
+    }
+    
+    func testShouldGetMiddleDotIndex() {
+        var board = Board(width: 7, height: 9, goalMargin: 1)
+        
+        let result = board.getMiddleDotIndex()
+        
+        XCTAssertEqual(3, result.0)
+        XCTAssertEqual(4, result.1)
     }
 }

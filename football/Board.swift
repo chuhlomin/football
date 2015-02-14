@@ -11,7 +11,7 @@ import Foundation
 class Board {
     
     var board: Array<Array<Int>> = []
-    var lines: Array<(Dot, Dot, Int)> = []
+    var lines: Array<Line> = []
     
     var width: Int
     var height: Int
@@ -111,14 +111,18 @@ class Board {
             }
             
             lines.append(
-                Dot(x: x1, y: indexY),
-                Dot(x: x1, y: indexY + 1),
-                LINE_WALL
+                Line(
+                    pointTo: (x1, indexY + 1),
+                    pointFrom: (x1, indexY),
+                    type: LINE_WALL
+                )
             )
             lines.append(
-                Dot(x: x2, y: indexY),
-                Dot(x: x2, y: indexY + 1),
-                LINE_WALL
+                Line(
+                    pointTo: (x2, indexY + 1),
+                    pointFrom: (x2, indexY),
+                    type: LINE_WALL
+                )
             )
         }
     }
@@ -134,14 +138,18 @@ class Board {
             }
             
             self.lines.append(
-                Dot(x: indexX, y: 1),
-                Dot(x: indexX + 1, y: 1),
-                LINE_WALL
+                Line(
+                    pointTo: (indexX, 1),
+                    pointFrom: (indexX + 1, 1),
+                    type: LINE_WALL
+                )
             )
             self.lines.append(
-                Dot(x: indexX, y: height - 1),
-                Dot(x: indexX + 1, y: height - 1),
-                LINE_WALL
+                Line(
+                    pointTo: (indexX, height - 1),
+                    pointFrom: (indexX + 1, height - 1),
+                    type: LINE_WALL
+                )
             )
         }
     }
@@ -159,7 +167,14 @@ class Board {
         return (Int(width / 2), Int(height / 2))
     }
     
-    func addLine(locationFrom: (Int, Int), locationTo: (Int, Int), player: Int) -> Bool {
-        return true
+    func addLine(locationFrom: (Int, Int), locationTo: (Int, Int), player: Int) -> Void {
+        
+        let line = Line(
+            pointTo: locationTo,
+            pointFrom: locationFrom,
+            type: player
+        )
+        
+        lines.append(line)
     }
 }

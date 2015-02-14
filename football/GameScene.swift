@@ -29,31 +29,48 @@ class GameScene: SKScene {
         let board = Board(width: boardWidth, height: boardHeight, goalMargin: 3)
         self.game = Game(board: board)
         
-        println("Board width: \(boardWidth)")
-        println("Board height: \(boardHeight)")
+        calcDeltaAndShift(board)
+        drawDotsZero(board)
+        drawWall()
         
-        deltaX = Int(self.size.width / CGFloat(boardWidth - 1))
-        deltaY = Int(self.size.height / CGFloat(boardHeight - 1))
+        placeDot(game!.lastDot)
+    }
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            let locationIndex = self.getNearestDotIndex(location)
+            
+            if let currentDot = game?.board.getDot(locationIndex) {
+                if currentDot == game?.board.EMPTY {
+                    game?.makeMove(locationIndex)
+                    placeDot(locationIndex)
+                }
+            }
+        }
+    }
+    
+    override func update(currentTime: CFTimeInterval) {
+        /* Called before each frame is rendered */
+    }
+    
+    func calcDeltaAndShift(board: Board) -> Void {
+        deltaX = Int(self.size.width / CGFloat(board.width))
+        deltaY = Int(self.size.height / CGFloat(board.height))
         
         if (deltaY > deltaX) {
             deltaY = deltaX
-            shiftY = Int((Int(self.size.height) - ((boardHeight - 1) * deltaY)) / 2)
+            shiftY = Int((Int(self.size.height) - (board.height * deltaY)) / 2)
         } else if (deltaX > deltaY) {
             deltaX = deltaY
-            shiftX = Int((Int(self.size.width) - (boardWidth * deltaX)) / 2)
+            shiftX = Int((Int(self.size.width) - (board.width * deltaX)) / 2)
         }
-        
-        println("Frame width: \(self.size.width)")
-        println("Frame height: \(self.size.height)")
-        
-        println("Delta X: \(deltaX)")
-        println("Delta Y: \(deltaY)")
-        
-        println("Shift X: \(shiftX)")
-        println("Shift Y: \(shiftY)")
-        
-        for indexX in 0...(boardWidth - 1) {
-            for indexY in 0...(boardHeight - 1) {
+    }
+    
+    func drawDotsZero(board: Board) -> Void {
+        for indexX in 0...board.width {
+            for indexY in 0...board.height {
                 if (board.board[indexX][indexY] != board.EMPTY) {
                     continue
                 }
@@ -68,7 +85,9 @@ class GameScene: SKScene {
                 self.addChild(dotZero)
             }
         }
-        
+    }
+    
+    func drawWall() -> Void {
         var ref = CGPathCreateMutable()
         CGPathMoveToPoint(ref, nil, CGFloat(shiftX + deltaX), CGFloat(shiftY + deltaY))
         CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 4*deltaX), CGFloat(shiftY + deltaY))
@@ -92,30 +111,9 @@ class GameScene: SKScene {
         wallLine.zPosition = 0
         
         self.addChild(wallLine)
-        
-        placeDot(game!.lastDot)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            let locationIndex = self.getNearestDot(location)
-            
-            if let currentDot = game?.board.getDot(locationIndex) {
-                if currentDot == game?.board.EMPTY {
-                    game?.makeMove(locationIndex)
-                    placeDot(locationIndex)
-                }
-            }
-        }
-    }
-    
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-    }
-    
-    func getNearestDot(location: CGPoint) -> (Int, Int) {
+    func getNearestDotIndex(location: CGPoint) -> (Int, Int) {
         var betaX: Float = Float(location.x - CGFloat(shiftX)) / Float(deltaX)
         var betaY: Float = Float(location.y - CGFloat(shiftY)) / Float(deltaY)
         
