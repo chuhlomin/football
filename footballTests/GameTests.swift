@@ -42,9 +42,9 @@ class GameTests: XCTestCase {
     }
     
     func testShouldDetermineWinner() {
-        XCTAssertEqual(game!.PLAYER_BOB, game!.getWinner((4, 0))!)
-        XCTAssertEqual(game!.PLAYER_ALICE, game!.getWinner((6, 12))!)
-        XCTAssertNil(game!.getWinner((3, 5)))
+        XCTAssertEqual(game!.PLAYER_BOB, game!.getWinner(board!.GOAL_ALICE)!)
+        XCTAssertEqual(game!.PLAYER_ALICE, game!.getWinner(board!.GOAL_BOB)!)
+        XCTAssertNil(game!.getWinner(board!.EMPTY))
     }
     
     func testShouldDetermineIfMoveNotOver() {

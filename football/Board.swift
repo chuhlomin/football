@@ -56,6 +56,7 @@ class Board {
         fillBoardWallVertical()
         fillBoardWallHorizontal()
         fillBoardGoal()
+        fillBoardCorners()
     }
     
     func fillBoardWallVertical() {
@@ -95,9 +96,17 @@ class Board {
         }
     }
     
+    func fillBoardCorners() {
+        board[1][1] = UNREACHABLE
+        board[1][height - 1] = UNREACHABLE
+        board[width - 1][1] = UNREACHABLE
+        board[width - 1][height - 1] = UNREACHABLE
+    }
+    
     func fillLines() {
         fillLinesHorizontal()
         fillLinesVertical()
+        fillLinesGoalExtra()
     }
     
     func fillLinesVertical() {
@@ -130,6 +139,14 @@ class Board {
         }
     }
     
+    func fillLinesGoalExtra() {
+        // todo: make dynamic
+        addLine((4, 0), locationTo: (3, 1), player: LINE_WALL)
+        addLine((6, 0), locationTo: (7, 1), player: LINE_WALL)
+        addLine((4, height), locationTo: (3, height - 1), player: LINE_WALL)
+        addLine((6, height), locationTo: (7, height - 1), player: LINE_WALL)
+    }
+    
     func getDot(location: (Int, Int)) -> Int? {
         if (location.0 < 0 || location.0 > width ||
             location.1 < 0 || location.1 > height) {
@@ -152,5 +169,29 @@ class Board {
         )
         
         lines.append(line)
+    }
+    
+    func searchLine(pointFrom: (Int, Int), pointTo: (Int, Int)) -> Line? {
+        for line in lines {
+            if (compareTuples(line.pointFrom, tupleTwo: pointFrom) &&
+                compareTuples(line.pointTo, tupleTwo: pointTo)) {
+                return line
+            }
+        
+            if (compareTuples(line.pointFrom, tupleTwo: pointTo) &&
+                compareTuples(line.pointTo, tupleTwo: pointFrom)) {
+                return line
+            }
+        }
+
+        return nil
+    }
+    
+    func compareTuples(tupleOne: (Int, Int), tupleTwo: (Int, Int)) -> Bool {
+        if (tupleOne.0 == tupleTwo.0 && tupleOne.1 == tupleTwo.1) {
+            return true
+        }
+        
+        return false
     }
 }

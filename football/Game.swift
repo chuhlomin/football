@@ -13,24 +13,42 @@ class Game
     let PLAYER_ALICE = 1
     let PLAYER_BOB = 2
     
+    var isRun: Bool
     var board: Board
     var lastDot: (Int, Int)
     var currentPlayer: Int
+    var possibleMoves: [(Int, Int)] = []
     
     init(board: Board) {
         self.board = board
         currentPlayer = PLAYER_ALICE
         lastDot = board.getMiddleDotIndex()
         board.board[lastDot.0][lastDot.1] = currentPlayer
+        self.isRun = false
+        possibleMoves = getPossibleMoves()
+    }
+    
+    func start() {
+        isRun = true
+    }
+    
+    func stop() {
+        isRun = false
     }
     
     func makeMove(location: (Int, Int)) -> Bool {
-        if isMovePossible(lastDot, pointTo: location) {
-            
+        if !isRun {
+            return false
+        }
+        
+        let filtered = possibleMoves.filter { self.board.compareTuples($0, tupleTwo: location)}
+        
+        if (filtered.count > 0) {
             board.addLine(lastDot, locationTo: location, player: currentPlayer)
             board.board[location.0][location.1] = currentPlayer
             
             lastDot = location
+            possibleMoves = getPossibleMoves()
             return true
         }
         
@@ -46,11 +64,14 @@ class Game
             return false
         }
         
+        if (isLineExist(pointFrom, pointTo: pointTo) == true) {
+            return false
+        }
+        
         return true
     }
     
     func moveHasCorrectLenght(pointFrom: (Int, Int), pointTo: (Int, Int)) -> Bool {
-        
         if abs(pointFrom.0 - pointTo.0) > 1 {
             return false
         }
@@ -65,6 +86,58 @@ class Game
         }
         
         return true
+    }
+    
+    func isLineExist(pointFrom: (Int, Int), pointTo: (Int, Int)) -> Bool {
+        if let line = board.searchLine(pointFrom, pointTo: pointTo) {
+            return true
+        }
+        
+        return false
+    }
+    
+    func getPossibleMoves() -> [(Int, Int)] {
+        var result: [(Int, Int)] = []
+        for dX in -1...1 {
+            for dY in -1...1 {
+                if dX == 0 && dY == 0 {
+                    continue
+                }
+                let nextDot = (lastDot.0 + dX, lastDot.1 + dY)
+                
+                if (isMovePossible(lastDot, pointTo: nextDot) == true) {
+                    result.append(nextDot)
+                    
+                    if (dX > 0 && dY > 0) {
+                        print("↗︎")
+                    }
+                    if (dX > 0 && dY < 0) {
+                        print("↘︎")
+                    }
+                    if (dX > 0 && dY == 0) {
+                        print("→")
+                    }
+                    if (dX == 0 && dY > 0) {
+                        print("↑")
+                    }
+                    if (dX == 0 && dY < 0) {
+                        print("↓")
+                    }
+                    if (dX < 0 && dY > 0) {
+                        print("↖︎")
+                    }
+                    if (dX < 0 && dY < 0) {
+                        print("↙︎")
+                    }
+                    if (dX < 0 && dY == 0) {
+                        print("←")
+                    }
+                }
+            }
+        }
+        println("")
+        println("--------")
+        return result
     }
     
     func destinationIsReachable(destination: (Int, Int)) -> Bool {
@@ -85,12 +158,12 @@ class Game
         return false
     }
     
-    func getWinner(lastDot: (Int, Int)) -> Int? {
-        if board.getDot(lastDot) == board.GOAL_ALICE {
+    func getWinner(dot: Int) -> Int? {
+        if dot == board.GOAL_ALICE {
             return PLAYER_BOB
         }
         
-        if board.getDot(lastDot) == board.GOAL_BOB {
+        if dot == board.GOAL_BOB {
             return PLAYER_ALICE
         }
         

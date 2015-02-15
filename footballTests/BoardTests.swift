@@ -15,15 +15,15 @@ class BoardTests: XCTestCase {
 
         let expectedBoard = [
             [4, 4, 4, 4, 4, 4],
-            [4, 3, 3, 3, 3, 4],
+            [4, 4, 3, 3, 4, 4],
             [5, 3, 0, 0, 3, 6],
             [5, 3, 0, 0, 3, 6],
-            [4, 3, 3, 3, 3, 4],
+            [4, 4, 3, 3, 4, 4],
             [4, 4, 4, 4, 4, 4]
         ]
         
         XCTAssertEqual(expectedBoard, board.board)
-        XCTAssertEqual(16, board.lines.count)
+        XCTAssertEqual(20, board.lines.count)
     }
     
     func testShouldCreateLargeBoard() {
@@ -31,7 +31,7 @@ class BoardTests: XCTestCase {
         
         let expectedBoard = [
             [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
-            [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+            [4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4],
             [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
             [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
             [5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6],
@@ -39,7 +39,7 @@ class BoardTests: XCTestCase {
             [5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6],
             [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
             [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
-            [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+            [4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4],
             [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
         ]
         
@@ -50,7 +50,7 @@ class BoardTests: XCTestCase {
         var board = Board(width: 6, height: 6, goalMargin: 1)
         
         XCTAssertEqual(board.UNREACHABLE, board.getDot((0, 0))!)
-        XCTAssertEqual(board.WALL, board.getDot((1, 1))!)
+        XCTAssertEqual(board.WALL, board.getDot((1, 2))!)
         XCTAssertEqual(board.EMPTY, board.getDot((2, 2))!)
     }
     

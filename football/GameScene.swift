@@ -15,15 +15,10 @@ class GameScene: SKScene {
     var shiftY: Int = 0;
     var deltaX: Int = 0;
     var deltaY: Int = 0;
+    var radialAlice: SKSpriteNode?;
+    var radialBob: SKSpriteNode?;
     
     override func didMoveToView(view: SKView) {
-//         Setup your scene here 
-//        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-//        myLabel.text = "Hello, World!";
-//        myLabel.fontSize = 65;
-//        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-//        self.addChild(myLabel)
-        
         let boardWidth = 11
         let boardHeight = 13
         let board = Board(width: boardWidth, height: boardHeight, goalMargin: 3)
@@ -34,6 +29,11 @@ class GameScene: SKScene {
         drawWall()
         
         placeDot(game!.lastDot)
+        
+        initRadials()
+        activateCurrentRadial()
+        
+        game?.start()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -55,9 +55,13 @@ class GameScene: SKScene {
                     
                     if (game?.isMoveOver(currentDot) == true) {
                         game?.switchPlayer()
+                        activateCurrentRadial()
                     }
                     
-                    // getWinner
+                    if let winner = game!.getWinner(currentDot) {
+                        game?.stop()
+                        showWinner(winner)
+                    }
                 }
             }
         }
@@ -181,5 +185,74 @@ class GameScene: SKScene {
     
     func getPontYByIndex(indexY: Int) -> CGFloat {
         return CGFloat(shiftY + indexY * deltaY)
+    }
+    
+    func initRadials() {
+        radialAlice = SKSpriteNode(imageNamed:"RadialAlice")
+        radialAlice?.yScale = 0.33
+        radialAlice?.alpha = 0
+        radialAlice?.zRotation = CGFloat(M_PI)
+        radialAlice?.position = CGPoint(
+            x: self.frame.width / 2,
+            y: radialAlice!.size.height / 3
+        )
+        
+        self.addChild(radialAlice!)
+        
+        radialBob = SKSpriteNode(imageNamed:"RadialBob")
+        radialBob?.yScale = 0.33
+        radialBob?.alpha = 0
+        radialBob?.position = CGPoint(
+            x: self.frame.width / 2,
+            y: self.frame.height - radialBob!.size.height / 3
+        )
+        
+        self.addChild(radialBob!)
+    }
+    
+    func activateCurrentRadial() {
+        let actionFadeIn = SKAction.fadeAlphaTo(1, duration: 0.5)
+        let actionFadeOut = SKAction.fadeAlphaTo(0, duration: 0.5)
+        
+        if (game?.currentPlayer == game?.PLAYER_ALICE) {
+            radialAlice?.runAction(actionFadeIn)
+            radialBob?.runAction(actionFadeOut)
+        } else {
+            radialAlice?.runAction(actionFadeOut)
+            radialBob?.runAction(actionFadeIn)
+        }
+    }
+    
+    func showWinner(winner: Int) {
+        let whiteBg = SKSpriteNode(imageNamed: "Transparent")
+        whiteBg.size.width = frame.width
+        whiteBg.size.height = frame.height
+        whiteBg.zPosition = 9
+        whiteBg.position = CGPoint(
+            x: CGRectGetMidX(self.frame),
+            y: CGRectGetMidY(self.frame)
+        )
+        self.addChild(whiteBg)
+        
+        let labelWin = SKLabelNode(fontNamed: "AvenirNext-Medium")
+        labelWin.text = "win!";
+        labelWin.fontSize = 65;
+        labelWin.fontColor = UIColor.blackColor()
+        labelWin.zPosition = 10
+        labelWin.position = CGPoint(
+            x: CGRectGetMidX(self.frame),
+            y: CGRectGetMidY(self.frame)
+        );
+        self.addChild(labelWin)
+        
+        let winnerImage = (winner == game?.PLAYER_ALICE) ? "DotAlice" : "DotBob"
+        
+        let circleWin = SKSpriteNode(imageNamed: winnerImage)
+        circleWin.zPosition = 10
+        circleWin.position = CGPoint(
+            x: CGRectGetMidX(self.frame),
+            y: CGRectGetMidY(self.frame) + 100
+        )
+        self.addChild(circleWin)
     }
 }
