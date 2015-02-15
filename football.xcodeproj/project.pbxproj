@@ -18,10 +18,11 @@
 		DB0690A21A8E812400671E11 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690A11A8E812400671E11 /* Board.swift */; };
 		DB0690A81A8E841100671E11 /* BoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690A41A8E82AF00671E11 /* BoardTests.swift */; };
 		DB0690AC1A8E877C00671E11 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690A11A8E812400671E11 /* Board.swift */; };
-		DB0690AE1A8E92E400671E11 /* Dot.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690AD1A8E92E400671E11 /* Dot.swift */; };
-		DB0690AF1A8EA1B400671E11 /* Dot.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690AD1A8E92E400671E11 /* Dot.swift */; };
 		DB0690B11A8EAA7300671E11 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690B01A8EAA7300671E11 /* Game.swift */; };
 		DB0690B21A8EAA7300671E11 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690B01A8EAA7300671E11 /* Game.swift */; };
+		DB18FDCA1A8FFF31003E1228 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FDC91A8FFF31003E1228 /* Line.swift */; };
+		DB18FDCB1A8FFF31003E1228 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FDC91A8FFF31003E1228 /* Line.swift */; };
+		DB18FDCD1A90047C003E1228 /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FDCC1A90047C003E1228 /* GameTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +50,9 @@
 		DB0690971A8E80BB00671E11 /* footballTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = footballTests.swift; sourceTree = "<group>"; };
 		DB0690A11A8E812400671E11 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		DB0690A41A8E82AF00671E11 /* BoardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTests.swift; sourceTree = "<group>"; };
-		DB0690AD1A8E92E400671E11 /* Dot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dot.swift; sourceTree = "<group>"; };
 		DB0690B01A8EAA7300671E11 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		DB18FDC91A8FFF31003E1228 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		DB18FDCC1A90047C003E1228 /* GameTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +103,8 @@
 				DB06908A1A8E80BB00671E11 /* LaunchScreen.xib */,
 				DB06907B1A8E80BB00671E11 /* Supporting Files */,
 				DB0690A11A8E812400671E11 /* Board.swift */,
-				DB0690AD1A8E92E400671E11 /* Dot.swift */,
 				DB0690B01A8EAA7300671E11 /* Game.swift */,
+				DB18FDC91A8FFF31003E1228 /* Line.swift */,
 			);
 			path = football;
 			sourceTree = "<group>";
@@ -121,6 +123,7 @@
 				DB0690971A8E80BB00671E11 /* footballTests.swift */,
 				DB0690951A8E80BB00671E11 /* Supporting Files */,
 				DB0690A41A8E82AF00671E11 /* BoardTests.swift */,
+				DB18FDCC1A90047C003E1228 /* GameTests.swift */,
 			);
 			path = footballTests;
 			sourceTree = "<group>";
@@ -238,7 +241,7 @@
 				DB0690B11A8EAA7300671E11 /* Game.swift in Sources */,
 				DB0690841A8E80BB00671E11 /* GameViewController.swift in Sources */,
 				DB0690A21A8E812400671E11 /* Board.swift in Sources */,
-				DB0690AE1A8E92E400671E11 /* Dot.swift in Sources */,
+				DB18FDCA1A8FFF31003E1228 /* Line.swift in Sources */,
 				DB06907E1A8E80BB00671E11 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,10 +251,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB0690A81A8E841100671E11 /* BoardTests.swift in Sources */,
+				DB18FDCD1A90047C003E1228 /* GameTests.swift in Sources */,
 				DB0690B21A8EAA7300671E11 /* Game.swift in Sources */,
 				DB0690981A8E80BB00671E11 /* footballTests.swift in Sources */,
+				DB18FDCB1A8FFF31003E1228 /* Line.swift in Sources */,
 				DB0690AC1A8E877C00671E11 /* Board.swift in Sources */,
-				DB0690AF1A8EA1B400671E11 /* Dot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -31,7 +31,6 @@ class GameTests: XCTestCase {
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
@@ -42,24 +41,15 @@ class GameTests: XCTestCase {
         XCTAssertEqual(game!.PLAYER_ALICE, game!.switchPlayer())
     }
     
-    func testShouldDetermineWinnerAlice() {
+    func testShouldDetermineWinner() {
         XCTAssertEqual(game!.PLAYER_BOB, game!.getWinner((4, 0))!)
-    }
-    
-    func testShouldDetermineWinnerBob() {
         XCTAssertEqual(game!.PLAYER_ALICE, game!.getWinner((6, 12))!)
-    }
-    
-    func testShouldDetectNowinner() {
         XCTAssertNil(game!.getWinner((3, 5)))
     }
     
-    func testShouldDetermineIfMoveOver() {
-        XCTAssertTrue(game!.isMoveOver((4, 4)))
-    }
-    
     func testShouldDetermineIfMoveNotOver() {
-        XCTAssertFalse(game!.isMoveOver((1, 5)))
+        XCTAssertTrue(game!.isMoveOver(0))
+        XCTAssertFalse(game!.isMoveOver(3))
     }
     
     func testShouldDetermineIfMoveHasCorrectLenght() {
@@ -68,4 +58,6 @@ class GameTests: XCTestCase {
         XCTAssertTrue(game!.moveHasCorrectLenght((3, 4), pointTo: (3, 3)))
         XCTAssertTrue(game!.moveHasCorrectLenght((3, 4), pointTo: (3, 3)))
     }
+    
+    
 }

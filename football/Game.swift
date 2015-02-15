@@ -21,12 +21,14 @@ class Game
         self.board = board
         currentPlayer = PLAYER_ALICE
         lastDot = board.getMiddleDotIndex()
+        board.board[lastDot.0][lastDot.1] = currentPlayer
     }
     
     func makeMove(location: (Int, Int)) -> Bool {
         if isMovePossible(lastDot, pointTo: location) {
             
             board.addLine(lastDot, locationTo: location, player: currentPlayer)
+            board.board[location.0][location.1] = currentPlayer
             
             lastDot = location
             return true
@@ -36,11 +38,15 @@ class Game
     }
     
     func isMovePossible(pointFrom: (Int, Int), pointTo: (Int, Int)) -> Bool {
-        if moveHasCorrectLenght(pointFrom, pointTo: pointTo) {
-            return true
+        if (destinationIsReachable(pointTo) == false) {
+            return false
         }
         
-        return false
+        if (moveHasCorrectLenght(pointFrom, pointTo: pointTo) == false) {
+            return false
+        }
+        
+        return true
     }
     
     func moveHasCorrectLenght(pointFrom: (Int, Int), pointTo: (Int, Int)) -> Bool {
@@ -61,13 +67,18 @@ class Game
         return true
     }
     
-    func isMoveOver(lastDot: (Int, Int)) -> Bool {
-        let lastDotValue = board.getDot(lastDot)
-        println("Last dot value: \(lastDotValue)")
+    func destinationIsReachable(destination: (Int, Int)) -> Bool {
+        if (board.getDot(destination) == board.UNREACHABLE) {
+            return false
+        }
         
-        if (lastDotValue == board.EMPTY ||
-            lastDotValue == board.GOAL_ALICE ||
-            lastDotValue == board.GOAL_BOB) {
+        return true
+    }
+    
+    func isMoveOver(dot: Int) -> Bool {
+        if (dot == board.EMPTY ||
+            dot == board.GOAL_ALICE ||
+            dot == board.GOAL_BOB) {
             return true
         }
         

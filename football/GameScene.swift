@@ -43,9 +43,21 @@ class GameScene: SKScene {
             let locationIndex = self.getNearestDotIndex(location)
             
             if let currentDot = game?.board.getDot(locationIndex) {
-                if currentDot == game?.board.EMPTY {
-                    game?.makeMove(locationIndex)
-                    placeDot(locationIndex)
+                let previousDot = game?.lastDot
+                if (game?.makeMove(locationIndex) != false) {
+                    
+                    drawLine(previousDot!, pointTo: locationIndex, player: game!.currentPlayer)
+                    
+                    if (currentDot != game?.board.PLAYER_ALICE &&
+                        currentDot != game?.board.PLAYER_BOB) {
+                        placeDot(locationIndex)
+                    }
+                    
+                    if (game?.isMoveOver(currentDot) == true) {
+                        game?.switchPlayer()
+                    }
+                    
+                    // getWinner
                 }
             }
         }
@@ -89,19 +101,19 @@ class GameScene: SKScene {
     
     func drawWall() -> Void {
         var ref = CGPathCreateMutable()
-        CGPathMoveToPoint(ref, nil, CGFloat(shiftX + deltaX), CGFloat(shiftY + deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 4*deltaX), CGFloat(shiftY + deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 4*deltaX), CGFloat(shiftY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 6*deltaX), CGFloat(shiftY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 6*deltaX), CGFloat(shiftY + deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 9*deltaX), CGFloat(shiftY + deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 9*deltaX), CGFloat(shiftY + 11*deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 6*deltaX), CGFloat(shiftY + 11*deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 6*deltaX), CGFloat(shiftY + 12*deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 4*deltaX), CGFloat(shiftY + 12*deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + 4*deltaX), CGFloat(shiftY + 11*deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + deltaX), CGFloat(shiftY + 11*deltaY))
-        CGPathAddLineToPoint(ref, nil, CGFloat(shiftX + deltaX), CGFloat(shiftY + deltaY))
+        CGPathMoveToPoint(ref, nil, getPontXByIndex(1), getPontYByIndex(1))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(4), getPontYByIndex(1))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(4), getPontYByIndex(0))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(6), getPontYByIndex(0))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(6), getPontYByIndex(1))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(9), getPontYByIndex(1))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(9), getPontYByIndex(11))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(6), getPontYByIndex(11))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(6), getPontYByIndex(12))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(4), getPontYByIndex(12))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(4), getPontYByIndex(11))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(1), getPontYByIndex(11))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(1), getPontYByIndex(1))
         
         let wallLine = SKShapeNode()
         wallLine.path = ref
@@ -124,7 +136,9 @@ class GameScene: SKScene {
     }
     
     func placeDot(locationIndex: (Int, Int)) -> Void {
-        let sprite = SKSpriteNode(imageNamed:"DotAlice")
+        let sprite = (game?.currentPlayer == game?.PLAYER_ALICE)
+            ? SKSpriteNode(imageNamed:"DotAlice")
+            : SKSpriteNode(imageNamed:"DotBob")
         
         sprite.xScale = 0.0
         sprite.yScale = 0.0
@@ -137,5 +151,35 @@ class GameScene: SKScene {
         
         let action = SKAction.scaleTo(0.15, duration: 0.25)
         sprite.runAction(action)
+    }
+    
+    func drawLine(pointFrom: (Int, Int), pointTo: (Int, Int), player: (Int)) -> Void {
+        
+        let playerColor = (player == game?.PLAYER_ALICE)
+            ? UIColor(red:0.29, green:0.56, blue:0.89, alpha:1)
+            : UIColor(red:0.95, green:0.65, blue:0.21, alpha:1)
+        
+        var ref = CGPathCreateMutable()
+        CGPathMoveToPoint(ref, nil, getPontXByIndex(pointFrom.0), getPontYByIndex(pointFrom.1))
+        CGPathAddLineToPoint(ref, nil, getPontXByIndex(pointTo.0), getPontYByIndex(pointTo.1))
+        
+        let line = SKShapeNode(path: ref)
+        line.strokeColor = playerColor
+        line.lineWidth = 3
+        line.zPosition = 0
+        line.alpha = 0
+        
+        self.addChild(line)
+        
+        let action = SKAction.fadeAlphaTo(1, duration: 0.25)
+        line.runAction(action)
+    }
+    
+    func getPontXByIndex(indexX: Int) -> CGFloat {
+        return CGFloat(shiftX + indexX * deltaX)
+    }
+    
+    func getPontYByIndex(indexY: Int) -> CGFloat {
+        return CGFloat(shiftY + indexY * deltaY)
     }
 }

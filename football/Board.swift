@@ -110,20 +110,8 @@ class Board {
                 x2 = width - goalMargin - 1
             }
             
-            lines.append(
-                Line(
-                    pointTo: (x1, indexY + 1),
-                    pointFrom: (x1, indexY),
-                    type: LINE_WALL
-                )
-            )
-            lines.append(
-                Line(
-                    pointTo: (x2, indexY + 1),
-                    pointFrom: (x2, indexY),
-                    type: LINE_WALL
-                )
-            )
+            addLine((x1, indexY + 1), locationTo: (x1, indexY), player: LINE_WALL)
+            addLine((x2, indexY + 1), locationTo: (x2, indexY), player: LINE_WALL)
         }
     }
     
@@ -137,20 +125,8 @@ class Board {
                 y2 = height
             }
             
-            self.lines.append(
-                Line(
-                    pointTo: (indexX, 1),
-                    pointFrom: (indexX + 1, 1),
-                    type: LINE_WALL
-                )
-            )
-            self.lines.append(
-                Line(
-                    pointTo: (indexX, height - 1),
-                    pointFrom: (indexX + 1, height - 1),
-                    type: LINE_WALL
-                )
-            )
+            addLine((indexX, 1), locationTo: (indexX + 1, 1), player: LINE_WALL)
+            addLine((indexX, height - 1), locationTo: (indexX + 1, height - 1), player: LINE_WALL)
         }
     }
     
