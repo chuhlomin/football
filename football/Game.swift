@@ -136,7 +136,6 @@ class Game
             }
         }
         println("")
-        println("--------")
         return result
     }
     

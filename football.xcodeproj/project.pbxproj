@@ -20,6 +20,8 @@
 		DB0690AC1A8E877C00671E11 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690A11A8E812400671E11 /* Board.swift */; };
 		DB0690B11A8EAA7300671E11 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690B01A8EAA7300671E11 /* Game.swift */; };
 		DB0690B21A8EAA7300671E11 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0690B01A8EAA7300671E11 /* Game.swift */; };
+		DB17FD0F1A9D6126007A752F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB17FD0D1A9D6126007A752F /* Crashlytics.framework */; };
+		DB17FD101A9D6126007A752F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB17FD0E1A9D6126007A752F /* Fabric.framework */; };
 		DB18FDCA1A8FFF31003E1228 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FDC91A8FFF31003E1228 /* Line.swift */; };
 		DB18FDCB1A8FFF31003E1228 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FDC91A8FFF31003E1228 /* Line.swift */; };
 		DB18FDCD1A90047C003E1228 /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB18FDCC1A90047C003E1228 /* GameTests.swift */; };
@@ -51,6 +53,8 @@
 		DB0690A11A8E812400671E11 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		DB0690A41A8E82AF00671E11 /* BoardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTests.swift; sourceTree = "<group>"; };
 		DB0690B01A8EAA7300671E11 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		DB17FD0D1A9D6126007A752F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		DB17FD0E1A9D6126007A752F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		DB18FDC91A8FFF31003E1228 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		DB18FDCC1A90047C003E1228 /* GameTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,6 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB17FD0F1A9D6126007A752F /* Crashlytics.framework in Frameworks */,
+				DB17FD101A9D6126007A752F /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +85,8 @@
 				DB06907A1A8E80BB00671E11 /* football */,
 				DB0690941A8E80BB00671E11 /* footballTests */,
 				DB0690791A8E80BB00671E11 /* Products */,
+				DB17FD0D1A9D6126007A752F /* Crashlytics.framework */,
+				DB17FD0E1A9D6126007A752F /* Fabric.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,6 +154,7 @@
 				DB0690741A8E80BB00671E11 /* Sources */,
 				DB0690751A8E80BB00671E11 /* Frameworks */,
 				DB0690761A8E80BB00671E11 /* Resources */,
+				DB17FD0C1A9D610A007A752F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -231,6 +240,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DB17FD0C1A9D610A007A752F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 1ca08785b410fb739dd0e7d6603bb6a6857ba854 27caf031b1352103f8e395ebdb94258c5f92d8d011db3d46fee53d16097929e3";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DB0690741A8E80BB00671E11 /* Sources */ = {
@@ -370,6 +395,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = football/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -380,6 +409,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = football/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

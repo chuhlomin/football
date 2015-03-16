@@ -119,8 +119,8 @@ class Board {
                 x2 = width - goalMargin - 1
             }
             
-            addLine((x1, indexY + 1), locationTo: (x1, indexY), player: LINE_WALL)
-            addLine((x2, indexY + 1), locationTo: (x2, indexY), player: LINE_WALL)
+            addLine((x1, indexY), locationTo: (x1, indexY + 1), player: LINE_WALL)
+            addLine((x2, indexY), locationTo: (x2, indexY + 1), player: LINE_WALL)
         }
     }
     
@@ -129,13 +129,13 @@ class Board {
             var y1 = 1
             var y2 = height - 1
             
-            if (indexX > (goalMargin + 1) && indexX < (width - goalMargin - 1)) {
+            if (indexX > goalMargin && indexX < (width - goalMargin - 1)) {
                 y1 = 0
                 y2 = height
             }
             
-            addLine((indexX, 1), locationTo: (indexX + 1, 1), player: LINE_WALL)
-            addLine((indexX, height - 1), locationTo: (indexX + 1, height - 1), player: LINE_WALL)
+            addLine((indexX, y1), locationTo: (indexX + 1, y1), player: LINE_WALL)
+            addLine((indexX, y2), locationTo: (indexX + 1, y2), player: LINE_WALL)
         }
     }
     

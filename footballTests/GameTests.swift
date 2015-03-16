@@ -13,7 +13,7 @@ class GameTests: XCTestCase {
     var game: Game?
     var board: Board?
 //    [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
-//    [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+//    [4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4],
 //    [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
 //    [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
 //    [5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6],
@@ -21,7 +21,7 @@ class GameTests: XCTestCase {
 //    [5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6],
 //    [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
 //    [4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
-//    [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+//    [4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4],
 //    [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
     
     override func setUp() {
@@ -59,5 +59,28 @@ class GameTests: XCTestCase {
         XCTAssertTrue(game!.moveHasCorrectLenght((3, 4), pointTo: (3, 3)))
     }
     
+    func testShouldGetPossibleMovesInGeneralCase() {
+        game!.lastDot = (5, 6)
+        XCTAssertEqual(8, game!.getPossibleMoves().count)
+    }
     
+    func testShouldGetPossibleMovesNearTheWall() {
+        game!.lastDot = (1, 6)
+        XCTAssertEqual(3, game!.getPossibleMoves().count)
+    }
+    
+    func testShouldGetPossibleMovesNearTheCorner() {
+        game!.lastDot = (2, 2)
+        XCTAssertEqual(7, game!.getPossibleMoves().count)
+    }
+    
+    func testShouldGetPossibleMovesInTheCorner() {
+        game!.lastDot = (1, 1)
+        XCTAssertEqual(1, game!.getPossibleMoves().count)
+    }
+
+    func testShouldGetPossibleMovesNearTheGoal() {
+        game!.lastDot = (4, 1)
+        XCTAssertEqual(5, game!.getPossibleMoves().count)
+    }
 }
