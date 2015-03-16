@@ -178,4 +178,12 @@ class Game
         
         return currentPlayer
     }
+    
+    func restart() -> Void {
+        currentPlayer = PLAYER_ALICE
+        lastDot = board.getMiddleDotIndex()
+        board.board[lastDot.0][lastDot.1] = currentPlayer
+        possibleMoves = getPossibleMoves()
+        self.isRun = true
+    }
 }

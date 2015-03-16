@@ -40,6 +40,12 @@ class GameScene: SKScene {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
+            
+            let nodeAtPoint = self.nodeAtPoint(location)
+            if (game?.isRun == false && nodeAtPoint.name == "ButtonRestart") {
+                gameRestart()
+            }
+            
             let locationIndex = self.getNearestDotIndex(location)
             
             if let currentDot = game?.board.getDot(locationIndex) {
@@ -61,6 +67,7 @@ class GameScene: SKScene {
                     if let winner = game!.getWinner(currentDot) {
                         game?.stop()
                         showWinner(winner)
+                        showRestartButton()
                     }
                 }
             }
@@ -69,6 +76,22 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+    
+    func getRestartButton() -> SKSpriteNode {
+        let button = SKSpriteNode(imageNamed:"ButtonRestart")
+        // button.size =
+        button.position = CGPoint(
+            x: CGRectGetMidX(self.frame),
+            y: CGRectGetMidY(self.frame) - 80
+        )
+        button.name = "ButtonRestart";
+        button.zPosition = 10
+        return button
+    }
+    
+    func showRestartButton() -> Void {
+        self.addChild(getRestartButton())
     }
     
     func calcDeltaAndShift(board: Board) -> Void {
@@ -225,6 +248,7 @@ class GameScene: SKScene {
     
     func showWinner(winner: Int) {
         let whiteBg = SKSpriteNode(imageNamed: "Transparent")
+        whiteBg.name = "whiteBg"
         whiteBg.size.width = frame.width
         whiteBg.size.height = frame.height
         whiteBg.zPosition = 9
@@ -254,5 +278,24 @@ class GameScene: SKScene {
             y: CGRectGetMidY(self.frame) + 100
         )
         self.addChild(circleWin)
+    }
+    
+    func gameRestart() -> Void {
+        self.removeAllChildren()
+
+        let boardWidth = 11
+        let boardHeight = 13
+        let board = Board(width: boardWidth, height: boardHeight, goalMargin: 3)
+        self.game = Game(board: board)
+        game?.restart()
+        
+        calcDeltaAndShift(board)
+        drawDotsZero(board)
+        drawWall()
+        
+        placeDot(game!.lastDot)
+        
+        initRadials()
+        activateCurrentRadial()
     }
 }
